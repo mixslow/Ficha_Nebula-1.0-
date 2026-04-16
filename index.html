@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha Nebula</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="estrelas-camada1"></div>
+    <div id="estrelas-camada2"></div>
+    <div id="estrelas-camada3"></div>
+
+<div class="ficha">
+        <h2 class="titulo-terminal">> SISTEMA_NEBULA</h2>
+        
+        <div class="grid-4">
+            <div class="input-group">Nome: <input type="text" id="nome"></div>
+            
+            <div class="input-group">
+                Raça: 
+                <select id="raca" onchange="calc()">
+                    <option value="Humano">Humano</option>
+                    <option value="Andróide">Andróide</option>
+                    <option value="Celeosk">Celeosk</option>
+                    <option value="Conduir">Conduir</option>
+                    <option value="Demonsk">Demonsk</option>
+                    <option value="Elfim">Elfim</option>
+                    <option value="Krajuru">Krajuru</option>
+                    <option value="Muron">Muron</option>
+                    <option value="Nebulofita">Nebulofita</option>
+                    <option value="Reptiliano">Reptiliano</option>
+                    <option value="Slimud">Slimud</option>
+                    <option value="Tiano">Tiano</option>
+                    <option value="Tribuiru">Tribuiru</option>
+                    <option value="Venomud">Venomud</option>
+                    <option value="Híbrido">Híbrido</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                Classe: 
+                <select id="classe" onchange="calc()">
+                    <option value="Apostador">Apostador</option>
+                    <option value="Atirador">Atirador</option>
+                    <option value="Berserker">Berserker</option>
+                    <option value="Caçador">Caçador</option>
+                    <option value="Contador de Odisséia">Contador de Odisséia</option>
+                    <option value="Devotado">Devotado</option>
+                    <option value="Dobrador">Dobrador</option>
+                    <option value="Inventor">Inventor</option>
+                    <option value="Lutador">Lutador</option>
+                    <option value="Médico">Médico</option>
+                    <option value="Piloto">Piloto</option>
+                    <option value="Samurai">Samurai</option>
+                    <option value="Tanque">Tanque</option>
+                    <option value="Taoísta">Taoísta</option>
+                </select>
+            </div>
+
+            <div class="input-group">Nível: <input type="number" id="nivel" value="1" oninput="calc()"></div>
+        </div>
+
+        <div class="grid-3" style="margin-bottom: 25px; border: 1px dashed var(--roxo); padding: 15px; border-radius: 8px; background: rgba(160, 32, 240, 0.05);">
+    <div style="text-align: center;">
+        HP MÁXIMO: <br>
+        <span id="v_hp" class="v-final" style="font-size: 1.5em;">0</span>
+    </div>
+    <div style="text-align: center;">
+        HP ATUAL: <br>
+        <input type="number" id="hp_atual" value="0" oninput="calc()" style="font-size: 1.2em; width: 70px; margin-top: 5px;">
+    </div>
+    <div style="text-align: center;">
+        STATUS: <br>
+        <span id="status_label" class="v-final" style="font-size: 1.2em;">OPERANTE</span>
+    </div>
+</div>
+
+<div class="atributo-box defesa-box">
+    <label>CLASSE DE ARMADURA (CA)</label>
+    <div class="input-row">
+        <div class="input-row">
+        <span id="v_ca" class="ca-destaque">10</span>
+        <input type="number" id="ca_bonus" class="bonus-input" placeholder="+B" oninput="calc()">
+    </div>
+</div>
+</div>
+
+       <div class="grid-7">
+    <div class="atributo-box">
+        <label>FORÇA</label>
+        <div class="input-row">
+            <input type="number" id="for_base" value="0" oninput="calc()">
+            <input type="number" id="for_bonus" class="bonus-input" placeholder="+" oninput="calc()">
+        </div>
+        <span id="v_for_total" class="total-destaque">0</span>
+    </div>
+
+    <div class="atributo-box">
+        <label>CON</label>
+        <div class="input-row">
+            <input type="number" id="con_base" value="0" oninput="calc()">
+            <input type="number" id="con_bonus" class="bonus-input" placeholder="+" oninput="calc()">
+        </div>
+        <span id="v_con_total" class="total-destaque">0</span>
+    </div>
+
+    <div class="atributo-box">
+        <label>DES</label>
+        <div class="input-row">
+            <input type="number" id="des_base" value="0" oninput="calc()">
+            <input type="number" id="des_bonus" class="bonus-input" placeholder="+" oninput="calc()">
+        </div>
+        <span id="v_des_total" class="total-destaque">0</span>
+    </div>
+
+    <div class="atributo-box">
+        <label>INT</label>
+        <div class="input-row">
+            <input type="number" id="int_base" value="0" oninput="calc()">
+            <input type="number" id="int_bonus" class="bonus-input" placeholder="+" oninput="calc()">
+        </div>
+        <span id="v_int_total" class="total-destaque">0</span>
+    </div>
+
+    <div class="atributo-box">
+        <label>SAB</label>
+        <div class="input-row">
+            <input type="number" id="sab_base" value="0" oninput="calc()">
+            <input type="number" id="sab_bonus" class="bonus-input" placeholder="+" oninput="calc()">
+        </div>
+        <span id="v_sab_total" class="total-destaque">0</span>
+    </div>
+
+    <div class="atributo-box">
+        <label>PER</label>
+        <div class="input-row">
+            <input type="number" id="per_base" value="0" oninput="calc()">
+            <input type="number" id="per_bonus" class="bonus-input" placeholder="+" oninput="calc()">
+        </div>
+        <span id="v_per_total" class="total-destaque">0</span>
+    </div>
+
+    <div class="atributo-box">
+        <label>CAR</label>
+        <div class="input-row">
+            <input type="number" id="car_base" value="0" oninput="calc()">
+            <input type="number" id="car_bonus" class="bonus-input" placeholder="+" oninput="calc()">
+        </div>
+        <span id="v_car_total" class="total-destaque">0</span>
+    </div>
+</div>
+        <h3># APTIDÕES</h3>
+        <div class="apt-grid">
+            <div class="apt-item">Reflexo (Des) [Des+Per] <input type="checkbox" id="t_ref" onclick="calc()"> <span id="v_ref" class="v-final">0</span></div>
+            <div class="apt-item">Mira (Per) [Vant.] <input type="checkbox" id="t_mir" onclick="calc()"> <span id="v_mir" class="v-final">0</span></div>
+            <div class="apt-item">Furtividade (Des) [Vant.] <input type="checkbox" id="t_fur" onclick="calc()"> <span id="v_fur" class="v-final">0</span></div>
+            <div class="apt-item">Pilotar (Des) [+5] <input type="checkbox" id="t_pil" onclick="calc()"> <span id="v_pil" class="v-final">0</span></div>
+            <div class="apt-item">Sobrevivência (Sab) [Vant.] <input type="checkbox" id="t_sob" onclick="calc()"> <span id="v_sob" class="v-final">0</span></div>
+            <div class="apt-item">Fortitude (Con) [+For] <input type="checkbox" id="t_for" onclick="calc()"> <span id="v_for" class="v-final">0</span></div>
+            <div class="apt-item">Acrobacia (Des) [+For] <input type="checkbox" id="t_acr" onclick="calc()"> <span id="v_acr" class="v-final">0</span></div>
+            <div class="apt-item">Conhecimento (Int) [+Sab] <input type="checkbox" id="t_conh" onclick="calc()"> <span id="v_conh" class="v-final">0</span></div>
+            <div class="apt-item">Religião (Sab) [+3] <input type="checkbox" id="t_rel" onclick="calc()"> <span id="v_rel" class="v-final">0</span></div>
+            <div class="apt-item">Intimidação (Car) [+For] <input type="checkbox" id="t_int" onclick="calc()"> <span id="v_int" class="v-final">0</span></div>
+            <div class="apt-item">Sedução (Car) [Vant.] <input type="checkbox" id="t_sed" onclick="calc()"> <span id="v_sed" class="v-final">0</span></div>
+            <div class="apt-item">Lábia (Car) [+Per] <input type="checkbox" id="t_lab" onclick="calc()"> <span id="v_lab" class="v-final">0</span></div>
+            <div class="apt-item">Barganha (Car) [+Lábia] <input type="checkbox" id="t_bar" onclick="calc()"> <span id="v_bar" class="v-final">0</span></div>
+            <div class="apt-item">Leitura (Int) [+4] <input type="checkbox" id="t_lei" onclick="calc()"> <span id="v_lei" class="v-final">0</span></div>
+            <div class="apt-item">Reparo (Int) [+Conhec.] <input type="checkbox" id="t_rep" onclick="calc()"> <span id="v_rep" class="v-final">0</span></div>
+            <div class="apt-item">Domar (Car) [+Sobrev.] <input type="checkbox" id="t_dom" onclick="calc()"> <span id="v_dom" class="v-final">0</span></div>
+            <div class="apt-item">Investigar (Per) [+Sab] <input type="checkbox" id="t_inv" onclick="calc()"> <span id="v_inv" class="v-final">0</span></div>
+            <div class="apt-item">Vontade (Con/Int) [Completo] <input type="checkbox" id="t_von" onclick="calc()"> <span id="v_von" class="v-final">0</span></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
