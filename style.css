@@ -1,4 +1,4 @@
-/* Variáveis de Cor - Fácil de mudar se você enjoar do roxo */
+/* Variáveis de Cor */
 :root {
     --roxo: #a020f0;
     --roxo-glow: rgba(160, 32, 240, 0.4);
@@ -33,8 +33,8 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: -1; /* Garante que fiquem atrás da ficha */
-    pointer-events: none; /* Garante que elas não atrapalhem os cliques */
+    z-index: -1; 
+    pointer-events: none; 
 }
 
 /* Camada 1: Estrelas pequenas e lentas (ao fundo) */
@@ -189,7 +189,7 @@ select:focus {
     box-shadow: 0 0 8px var(--roxo);
 }
 
-/* Efeito Hover nos itens de aptidão para facilitar a leitura */
+/* Efeito Hover nos itens de aptidão */
 .apt-item:hover {
     background: rgba(160, 32, 240, 0.1);
     border-left: 4px solid var(--roxo);
@@ -240,7 +240,7 @@ select:focus {
 }
 /* --- AJUSTES FINAIS DE ATRIBUTOS E BÔNUS --- */
 
-/* Garante que a caixa do atributo centralize o conteúdo */
+/* Caixa do atributo centralizada */
 .atributo-box {
     display: flex;
     flex-direction: column;
@@ -273,7 +273,7 @@ select:focus {
     font-size: 1em;
 }
 
-/* Estilo da caixinha de bônus (Dashed Roxo) */
+/* Estilo da caixa de bônus */
 .bonus-input {
     width: 35px !important;
     height: 25px !important;
@@ -300,4 +300,267 @@ select:focus {
 /* Ajuste para o placeholder não sumir */
 .bonus-input::placeholder {
     color: rgba(255, 0, 255, 0.1);
+}
+
+.nebula-visor {
+    border: none !important; /* Removemos a borda simples antiga */
+    background: rgba(149, 0, 50, 0.08) !important;
+    width: 240px !important;
+    max-width: 400px;
+    padding: 10px 15px !important;
+    margin: 20px auto !important;
+    margin-top: 10px !important;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    margin-bottom: 20px;
+    box-shadow: inset 0 0 15px rgba(149, 0, 50, 0.2);
+}
+
+/* Criando os cantos do visor com os pseudo-elementos ::before e ::after */
+.nebula-visor::before, .nebula-visor::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border: 3px solid #950032; /* Cor Crimson */
+}
+
+/* Canto Superior Esquerdo */
+.nebula-visor::before {
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: none;
+}
+
+/* Canto Inferior Direito */
+.nebula-visor::after {
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: none;
+}
+
+.visor-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7em;
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(149, 0, 50, 0.3);
+    padding-bottom: 5px;
+}
+
+.visor-header label {
+    color: #ff4d88 !important; /* Rosa claro para o título ler bem */
+    text-shadow: 0 0 8px #950032;
+    font-size: 1.5em !important;
+    letter-spacing: 2px;
+}
+
+.status-icon {
+    color: #950032;
+    font-size: 0.9em;
+}
+
+.nebula-visor input {
+    color: #ff4d88 !important;
+    font-size: 1.4em !important;
+    width: 55px !important;
+    height: 35px !important;
+    border: 1px solid rgba(149, 0, 50, 0.5) !important;
+    background: #0d0d0d !important;
+    box-shadow: 0 0 10px rgba(149, 0, 50, 0.3);
+}
+
+.separador-fluxo {
+    font-size: 1em;
+    color: rgba(255, 77, 136, 0.4);
+    margin: 0 10px;
+}
+
+.max-nebula {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #ff4d88;
+    text-shadow: 0 0 15px rgba(255, 77, 136, 0.6);
+}
+.btn-perigo {
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff0000;
+    border: 1px solid #ff0000;
+    padding: 10px 20px;
+    margin-bottom: 50px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Courier New', Courier, monospace; /* Ou a fonte do seu sistema */
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-shadow: 0 0 5px #ff0000;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+}
+
+.btn-perigo:hover {
+    background: #ff0000;
+    color: #000;
+    box-shadow: 0 0 20px #ff0000;
+}
+.controles-finais button {
+    background: transparent;
+    color: var(--roxo); /* Ou a cor magenta que você usa */
+    border: 1px solid var(--roxo);
+    padding: 8px 15px;
+    margin: 0 5px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    transition: 0.3s;
+    text-transform: uppercase;
+}
+
+.controles-finais button:hover {
+    background: var(--roxo);
+    color: #000;
+    box-shadow: 0 0 10px var(--roxo);
+}
+.tabela-combate {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.tabela-combate th {
+    text-align: left;
+    font-size: 0.7em;
+    color: #ff4d88;
+    padding: 5px;
+    border-bottom: 1px solid #950032;
+    background: rgba(149, 0, 50, 0.2);
+    text-shadow: 0 0 5px #ff4d88;
+}
+
+.tabela-combate td {
+    padding: 5px 2px;
+}
+
+.tabela-combate input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(149, 0, 50, 0.3);
+    color: white;
+    padding: 3px;
+}
+
+.grid-inventario-armaduras {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Duas colunas para armaduras */
+    gap: 15px;
+}
+
+.sub-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.sub-grid input[type="number"] {
+    width: 50px;
+    background: #000;
+    border: 1px solid #ff4d88;
+    color: #00ff00;
+    text-align: center;
+}
+
+/* Área de Texto da Mochila */
+#itens_gerais {
+    width: 100%;
+    background: rgba(20, 0, 10, 0.8);
+    border: 1px solid #ff0055;
+    color: #ffb3cc; /* Texto verde estilo terminal */
+    font-family: 'Courier New', monospace;
+    padding: 15px;
+    resize: vertical;
+}
+
+#itens_gerais::-webkit-scrollbar {
+    width: 8px;
+}
+#itens_gerais::-webkit-scrollbar-thumb {
+    background: #ff0055;
+    border-radius: 10px;
+}
+
+.item-equipavel-box {
+    text-align: center;
+    border: 1px dashed rgba(149, 0, 50, 0.5);
+    padding: 10px;
+}
+.item-equipavel-box.reserva {
+    opacity: 0.7;
+    border-style: dotted;
+}
+.item-equipavel-box:has(input[type="radio"]:checked) {
+    border: 1px solid #00ff00;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+    background: rgba(0, 255, 0, 0.05);
+}
+
+.radio-container {
+    cursor: pointer;
+    font-size: 0.8em;
+    color: #888;
+}
+
+input[type="radio"]:checked + span, 
+.item-equipavel-box:has(input[type="radio"]:checked) label {
+    color: #00ff00; /* Texto fica verde quando equipado */
+}
+/* Título Principal do Inventário */
+.titulo-sessao {
+    color: #ff0055; /* Magenta principal */
+    text-shadow: 0 0 10px #ff0055, 0 0 20px #950032;
+    letter-spacing: 5px;
+    font-weight: bold;
+}
+
+/* Estilizando especificamente o container de Créditos */
+.moeda-container {
+    border: 1px solid #ffcc00; /* Borda Dourada/Âmbar */
+    padding: 10px;
+    background: rgba(255, 204, 0, 0.05);
+    display: inline-block; /* Para não ocupar a tela toda */
+    border-radius: 4px;
+}
+
+.moeda-container label {
+    color: #ffcc00; /* Cor do Dinheiro */
+    text-shadow: 0 0 8px #ffcc00;
+    font-weight: bold;
+}
+
+#creditos {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #ffcc00;
+    color: #ffcc00;
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    width: 80px;
+    text-align: center;
+    outline: none;
+}
+.inv-secao h3 {
+    color: #00ffff; /* Ciano para dar contraste com o magenta */
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+    padding-bottom: 5px;
+    text-shadow: 0 0 5px #00ffff;
+}
+span[id^="v_"] {
+    min-width: 35px;      /* Garante um espaço mínimo para números altos */
+    display: inline-block; /* Permite que o min-width funcione */
+    text-align: center;    /* Centraliza o número (ex: Vontade) */
+    font-weight: bold;     /* Deixa o valor mais visível */
+    color: #ff0055;        /* Mantém o tom Magenta do sistema */
 }
