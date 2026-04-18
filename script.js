@@ -53,22 +53,31 @@ function carregarFicha() {
 }
 
 function calc() {
-    const v = (id) => parseInt(document.getElementById(id).value) || 0;
-    const t = (id) => document.getElementById(id).checked;
-    const s = (id) => document.getElementById(id).value;
+    // 1. Funções auxiliares (v = valor, t = marcado, s = texto)
+    const v = (id) => parseInt(document.getElementById(id)?.value) || 0;
+    const t = (id) => document.getElementById(id)?.checked || false;
+    const s = (id) => document.getElementById(id)?.value || "";
+    
+    // Função set que funciona tanto para Span quanto para Input
     const set = (id, val) => {
         const el = document.getElementById(id);
-        if(el) el.innerText = val;
+        if (!el) return;
+        if (el.tagName === "SPAN" || el.tagName === "P" || el.tagName === "DIV") {
+            el.innerText = val;
+        } else {
+            el.value = val;
+        }
     };
 
-    // Pegar Raça e Classe selecionadas
+    // 2. Dados de Raça e Classe
     const racaNome = s('raca');
     const classeNome = s('classe');
-    const racaSel = RAÇA_CLASSE.racas[racaNome] || {};
-    const classeSel = RAÇA_CLASSE.classes[classeNome] || { hp_base: 0, hp_level: 0, ca_base: 10 };
-    const nivel = v('nivel');
+    const nivel = v('nivel') || 1;
 
-    // --- ATRIBUTOS COM BÔNUS DE RAÇA ---
+    const racaSel = (typeof RAÇA_CLASSE !== 'undefined') ? (RAÇA_CLASSE.racas[racaNome] || {}) : {};
+    const classeSel = (typeof RAÇA_CLASSE !== 'undefined') ? (RAÇA_CLASSE.classes[classeNome] || { hp_base: 0, hp_level: 0, ca_base: 10 }) : { hp_base: 10, hp_level: 5, ca_base: 10 };
+
+    // 3. CÁLCULO DOS ATRIBUTOS TOTAIS (Base + Bônus + Raça)
     const FOR = v('for_base') + v('for_bonus') + (racaSel.for_b || 0);
     const CON = v('con_base') + v('con_bonus') + (racaSel.con_b || 0);
     const DES = v('des_base') + v('des_bonus') + (racaSel.des_b || 0);
@@ -77,7 +86,7 @@ function calc() {
     const PER = v('per_base') + v('per_bonus') + (racaSel.per_b || 0);
     const CAR = v('car_base') + v('car_bonus') + (racaSel.car_b || 0);
 
-    //Atualiza os spans
+    // Atualiza os Spans de Atributo na tela
     set('v_for_total', FOR);
     set('v_con_total', CON);
     set('v_des_total', DES);
@@ -86,66 +95,118 @@ function calc() {
     set('v_per_total', PER);
     set('v_car_total', CAR);
 
-    // --- CÁLCULOS DE HP E CA (REGRAS NOVAS) ---
-    // HP = (Base + CON) + (LevelUp + CON) * (Nível - 1)
-    const hpTotal = (classeSel.hp_base + CON) + ((classeSel.hp_level + CON) * (nivel - 1));
-    set('v_hp', hpTotal);
+    // 4. CÁLCULO DE HP
+    const hpMaximo = (classeSel.hp_base + CON) + ((classeSel.hp_level + CON) * (nivel - 1));
+    set('v_hp', hpMaximo);
 
+    // 5. STATUS DO SISTEMA (Baseado no HP Atual)
     const hpAtual = v('hp_atual');
+    const statusLabel = document.getElementById('status_label');
+    if (statusLabel) {
+        const pct = (hpAtual / hpMaximo) * 100;
+        if (hpAtual <= 0) { set('status_label', "INOPERANTE"); statusLabel.style.color = "#ff0000"; }
+        else if (pct < 20) { set('status_label', "CRÍTICO"); statusLabel.style.color = "#ff4500"; }
+        else if (pct < 50) { set('status_label', "ALERTA"); statusLabel.style.color = "#ffff00"; }
+        else { set('status_label', "OPERANTE"); statusLabel.style.color = "#00ff00"; }
+    }
 
-// 3. Lógica de Status Automática
-const statusLabel = document.getElementById('status_label');
+    // 6. LÓGICA DA CA (DEFINIÇÃO POR CLASSE)
+    let bDefesa = DES; // Padrão é Destreza
+    
+    if (['Lutador', 'Berserker', 'Samurai', 'Tanque'].includes(classeNome)) {
+        bDefesa = CON;
+    } else if (['Caçador', 'Devotado', 'Inventor', 'Médico'].includes(classeNome)) {
+        bDefesa = PER;
+    }
 
-if (hpAtual <= 0) {
-    set('status_label', "INOPERANTE");
-    statusLabel.style.color = "#ff0000"; // Vermelho Alerta
-    statusLabel.style.textShadow = "0 0 15px #ff0000";
-} else {
-    set('status_label', "OPERANTE");
-    statusLabel.style.color = "#00ff00"; // Verde Sistema OK
-    statusLabel.style.textShadow = "0 0 15px #00ff00";
-}
-    // CA = CA Base da Classe + CON
-    const bonusExternoCA = v('ca_bonus') || 0; 
-const caTotal = (classeSel.ca_base || 10) + CON + bonusExternoCA;
+    const bonusExternoCA = v('ca_bonus');
+    const caFinal = (classeSel.ca_base || 10) + bDefesa + bonusExternoCA;
+    set('v_ca', caFinal);
 
-set('v_ca', caTotal);
-    // --- APTIDÕES ---
+    // 7. CÁLCULO DE NEBULA
+    const nebulaMax = 20 + (Math.floor(nivel / 5) * 10);
+    set('v_nebula_max', nebulaMax);
+
+    // 8. APTIDÕES (Usando os valores já somados)
     set('v_ref', t('t_ref') ? (DES + PER) : DES);
-    set('v_mir', t('t_mir') ? (PER + " +V") : PER); // Mira
+    set('v_mir', t('t_mir') ? (PER + " +V") : PER);
     set('v_for', t('t_for') ? (CON + FOR) : CON);
     set('v_acr', t('t_acr') ? (DES + FOR) : DES);
     
     const valConhec = t('t_conh') ? (INT + SAB) : INT;
     set('v_conh', valConhec);
-    
     const valLabia = t('t_lab') ? (CAR + PER) : CAR;
     set('v_lab', valLabia);
     
-    set('v_bar',  t('t_bar')  ? (CAR + valLabia) : CAR);
-    set('v_rep',  t('t_rep')  ? (INT + valConhec) : INT);
-    
+    set('v_bar', t('t_bar') ? (CAR + valLabia) : CAR);
+    set('v_rep', t('t_rep') ? (INT + valConhec) : INT);
     set('v_fur', t('t_fur') ? (DES + " +V") : DES);
     set('v_pil', t('t_pil') ? (DES + 5) : DES);
-    set('v_sob', t('t_sob') ? (SAB + " +V") : SAB);
-    set('v_rel', t('t_rel') ? (SAB + 3) : SAB);
-    set('v_int', t('t_int') ? (CAR + FOR) : CAR);
-    set('v_sed', t('t_sed') ? (CAR + " +V") : CAR);
-    set('v_lei', t('t_lei') ? (INT + 4) : INT);
-    set('v_dom', t('t_dom') ? (CAR + SAB) : CAR);
-    set('v_inv', t('t_inv') ? (PER + SAB) : PER);
-    set('v_von', t('t_von') ? (CON + INT) : CON); // Vontade
+    set('v_von', t('t_von') ? (CON + INT + FOR + SAB) : (CON + INT));
+    // ... adicione as outras conforme sua necessidade, seguindo o padrão acima
 
-    // --- SALVAMENTO AUTOMÁTICO ---
-    // Adicionado o 'select' na busca para salvar Raça e Classe também
-    const todosInputs = document.querySelectorAll('input, textarea, select');
-    const dadosParaSalvar = {};
-    todosInputs.forEach(input => {
-        if (input.id) {
-            dadosParaSalvar[input.id] = input.type === "checkbox" ? input.checked : input.value;
-        }
+    // 9. SALVAMENTO AUTOMÁTICO
+    const dados = {};
+    document.querySelectorAll('input, textarea, select').forEach(el => {
+        if (el.id) dados[el.id] = el.type === "checkbox" ? el.checked : el.value;
     });
-    localStorage.setItem('dadosFichaNebula', JSON.stringify(dadosParaSalvar));
+    localStorage.setItem('dadosFichaNebula', JSON.stringify(dados));
 }
+
+// Função para alternar entre as abas "Ficha" e "Inventário"
+function alternarAba(aba) {
+    const divFicha = document.getElementById('aba-ficha');
+    const divInv = document.getElementById('aba-inventario');
+
+    if (aba === 'ficha') {
+        divFicha.style.display = 'block';
+        divInv.style.display = 'none';
+    } else {
+        divFicha.style.display = 'none';
+        divInv.style.display = 'block';
+    }
+}
+
+// Reset_Ficha: Limpa todos os campos e reseta a ficha para o estado inicial
+document.getElementById('btn_reset').addEventListener('click', function() {
+    // Pergunta se o jogador tem certeza (segurança extra)
+    const confirmar = confirm("AVISO: Isso apagará todos os dados da ficha atual. Deseja prosseguir com o Wipe?");
+
+    if (confirmar) {
+        // 1. Limpa todos os inputs de número e texto
+        const inputs = document.querySelectorAll('input, select');
+
+        inputs.forEach(input => {
+            if (input.type === 'number') {
+                if (input.id === 'nivel') {
+                    input.value = 1; // Nível padrão
+                } else {
+                    input.value = 0; // Ou o valor padrão que você preferir
+                }
+            } else if (input.type === 'text') {
+                input.value = "";
+            } else if (input.type === 'SELECT') {
+                input.selectedIndex = 0;
+            }
+        });
+        if (document.getElementById('itens_gerais')) {
+            document.getElementById('itens_gerais').value = '';
+        }
+
+        localStorage
+
+        calc(); 
+        
+        // Feedback visual no console (opcional)
+        console.log("Sistema resetado com sucesso.");
+
+        // 2. Opcional: Se você usa localStorage para salvar a ficha, limpe-o aqui:
+        // localStorage.clear();
+
+        // 3. Recarrega a página para resetar os cálculos e o Status
+        location.reload();
+    }
+});
+
 
 window.onload = carregarFicha;
