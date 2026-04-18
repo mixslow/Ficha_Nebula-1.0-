@@ -11,7 +11,7 @@
     <div id="estrelas-camada2"></div>
     <div id="estrelas-camada3"></div>
 
-<div class="ficha">
+<div id= "aba-ficha" class="container-principal">
         <h2 class="titulo-terminal">> SISTEMA_NEBULA</h2>
         
         <div class="grid-4">
@@ -74,8 +74,19 @@
         STATUS: <br>
         <span id="status_label" class="v-final" style="font-size: 1.2em;">OPERANTE</span>
     </div>
+    <div style="display: flex; justify-content: center; width: 100%; margin: 20px 0;"></div>
+    <div class="recurso-container nebula-visor">
+    <div class="visor-header">
+        <label> NEBULA </label>
+            <span class="status-icon">[[ LIFE CORE ]]</span>
+        </div>
+        <div class="input-row visor-content">
+            <input type="number" id="nebula_atual" value="20">
+            <span class="separador-fluxo">▶▶</span>
+            <span id="v_nebula_max" class="max-nebula">20</span>
+        </div>
+    </div>
 </div>
-
 <div class="atributo-box defesa-box">
     <label>CLASSE DE ARMADURA (CA)</label>
     <div class="input-row">
@@ -172,6 +183,95 @@
             <div class="apt-item">Vontade (Con/Int) [Completo] <input type="checkbox" id="t_von" onclick="calc()"> <span id="v_von" class="v-final">0</span></div>
         </div>
     </div>
+    <div id="aba-inventario" class="container-principal" style="display: none;">
+        <h2 class="titulo-sessao"> [ NEBULA STORAGE & ARSENAL ] </h2>
+
+<div class="moeda-container" style="margin-bottom: 20px;">
+    <label>💰 CRÉDITOS:</label>
+    <input type="number" id="creditos" value="0" class="input-transparente">
+</div>
+
+<div class="inv-secao">
+    <h3>⚔️ ARSENAL DE COMBATE</h3>
+    <table class="tabela-combate">
+        <thead>
+            <tr>
+                <th>ARMA</th>
+                <th>DANO</th>
+                <th>CRÍTICO</th>
+                <th>AMEAÇA</th>
+                <th>TIPO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="text" placeholder="Ex: Rifle Plasma"></td>
+                <td><input type="text" placeholder="2d10+4"></td>
+                <td><input type="text" placeholder="x3"></td>
+                <td><input type="text" placeholder="19"></td>
+                <td><input type="text" placeholder="Energia"></td>
+            </tr>
+            <tr>
+                    <td><input type="text" placeholder="Nome da Arma"></td>
+                    <td><input type="text" placeholder="Ex: 1d8"></td>
+                    <td><input type="text" placeholder="9m / Curto"></td>
+                    <td><input type="text" placeholder="x3"></td>
+                    <td><input type="text" placeholder="19"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="Arma Reserva"></td>
+                    <td><input type="text" placeholder="-"></td>
+                    <td><input type="text" placeholder="-"></td>
+                    <td><input type="text" placeholder="-"></td>
+                    <td><input type="text" placeholder="-"></td>
+                </tr>
+            </tbody>
+    </table>
+</div>
+
+<div class="inv-secao">
+    <h3>🛡️ ARMADURAS</h3>
+    <div class="grid-inventario-armaduras">
+        
+        <div class="item-equipavel-box" id="box-armadura-1">
+            <label>ARMADURA A</label>
+            <input type="text" placeholder="Ex: Malha Estelar">
+            <div class="sub-grid">
+                <input type="number" id="bonus_armadura_1" value="0" oninput="calc()">
+                <label class="radio-container">
+                    <input type="radio" name="equipar_armadura" value="1" onchange="calc()"> EQUIPAR
+                </label>
+            </div>
+        </div>
+
+        <div class="item-equipavel-box" id="box-armadura-2">
+            <label>ARMADURA B</label>
+            <input type="text" placeholder="Ex: Placas de Titânio">
+            <div class="sub-grid">
+                <input type="number" id="bonus_armadura_2" value="0" oninput="calc()">
+                <label class="radio-container">
+                    <input type="radio" name="equipar_armadura" value="2" onchange="calc()"> EQUIPAR
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="inv-secao">
+    <h3>📦 COMPARTIMENTOS DA MOCHILA</h3>
+    <textarea id="itens_gerais" rows="10" placeholder="Anote aqui medicamentos, utilitários e bônus diversos..."></textarea>
+</div>
+    </div>
+<div class="controles-finais" style="text-align: center; margin-top: 30px;">
+    <button onclick="alternarAba('ficha')">VER FICHA</button>
+    <button onclick="alternarAba('inventario')">VER INVENTÁRIO</button>
+    <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 20px 0;">
+</div>
+
+    <!-- Botão de Reset - Apaga todos os dados e volta ao estado inicial -->
+    <div style="text-align: center; margin-top: 30px;">
+    <button id="btn_reset" class="btn-perigo"> [ APAGAR DADOS ] </button>
+</div>
 
     <script src="script.js"></script>
 </body>
